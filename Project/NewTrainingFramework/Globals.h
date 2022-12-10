@@ -40,7 +40,13 @@ static class Globals
 
 		// Rectangle
 		#define DRAW_RECTANGLE3D true
-		GLuint vboIdRectangle3D;
+		#define VBO false
+		#if VBO == true
+				GLuint vboIdRectangle3D;
+		#else 
+				GLuint vboIdRectangle3D;
+				GLuint iboIdRectangle3D;
+		#endif
 		Shaders myRectangle3DShader;
 		float rotationAngleRectangle3D = 0.0f;
 		float rotationAngleIncreaseSpeedRectangle3D = 0.01f;
