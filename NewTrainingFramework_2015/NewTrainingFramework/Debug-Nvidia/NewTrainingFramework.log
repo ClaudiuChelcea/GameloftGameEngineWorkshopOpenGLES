@@ -1,8 +1,0 @@
-﻿  stdafx.cpp
-  Shaders.cpp
-  NewTrainingFramework.cpp
-c:\users\claudiumarian.chelce\desktop\game engine workshop\gameloftgameengineworkshop\newtrainingframework_2015\newtrainingframework\newtrainingframework.cpp(64): warning C4305: '+=': truncation from 'double' to 'float'
-  Generating Code...
-NewTrainingFramework.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-  NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine Workshop\GameloftGameEngineWorkshop\NewTrainingFramework_2015\\BIN-Nvidia\NewTrainingFramework.exe
-  NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine Workshop\GameloftGameEngineWorkshop\NewTrainingFramework_2015\\BIN-Nvidia\NewTrainingFramework.pdb (Full PDB)
