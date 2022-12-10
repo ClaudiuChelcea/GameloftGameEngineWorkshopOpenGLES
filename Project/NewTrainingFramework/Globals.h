@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Camera.h"
+#include "Shaders.h"
 
 static class Globals
 {
@@ -31,8 +32,30 @@ static class Globals
 		} DEBUGGER;
 
 		// Triangle
+		#define DRAW_TRIANGLE false
+		GLuint vboIdTriangle;
+		Shaders myTriangleShader;
 		float rotationAngle = 0.0f;
 		float rotationAngleIncreaseSpeed = 0.01f;
+
+		// Rectangle
+		#define DRAW_RECTANGLE3D true
+		GLuint vboIdRectangle3D;
+		Shaders myRectangle3DShader;
+		float rotationAngleRectangle3D = 0.0f;
+		float rotationAngleIncreaseSpeedRectangle3D = 0.01f;
+
+		// Rectangle
+		#define DRAW_SQUARE false
+		GLuint vboIdSquare;
+		Shaders mySquareShader;
+		float rotationAngleSquare = 0.0f;
+		float rotationAngleIncreaseSpeedSquare = 0.01f;
+
+		// Rectangle
+		#define DRAW_MIDDLE_LINE true
+		GLuint vboIdMiddleLine;
+		Shaders myMiddleLineShader;
 
 		/* Camera */
 		Camera myCamera = Camera(position, target, up, moveSpeed, rotateSpeed, nearC, farC, fov);
@@ -41,4 +64,9 @@ static class Globals
 		#define LOCK_UPDATE false
 		GLfloat currentTime = 0;
 		GLfloat maxTime = 0.05f;
+
+		// Enforced rotation on mouse click
+		#define ENFORCE_ROTATION true
+		GLfloat enforcedRotation = 0;
+		GLfloat enforcedRotationStep = 90;
 };

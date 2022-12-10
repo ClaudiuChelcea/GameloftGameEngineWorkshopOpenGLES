@@ -47,6 +47,7 @@ public:
    /// Callbacks
    void (ESCALLBACK *drawFunc) ( ESContext * );
    void (ESCALLBACK *keyFunc) ( ESContext *, unsigned char, bool );
+   void (ESCALLBACK* mouseFunc) (ESContext*, float, float);
    void (ESCALLBACK *updateFunc) ( ESContext *, float deltaTime );
 };
 
@@ -101,6 +102,15 @@ void ESUTIL_API esRegisterUpdateFunc ( ESContext *esContext, void (ESCALLBACK *u
 //
 void ESUTIL_API esRegisterKeyFunc ( ESContext *esContext, 
                                     void (ESCALLBACK *drawFunc) ( ESContext*, unsigned char, bool ) );
+
+//
+/// \brief Register an mouse input processing callback function
+/// \param esContext Application context
+/// \param mouseFunc Mouse callback function for application processing of keyboard input
+//
+void ESUTIL_API esRegisterMouseFunc(ESContext* esContext,
+    void (ESCALLBACK* mouseFunc) (ESContext*, float, float));
+
 //
 /// \brief Log a message to the debug output for the platform
 /// \param formatStr Format string for error log.  

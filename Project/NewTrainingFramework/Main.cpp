@@ -9,8 +9,6 @@
 #include "Globals.h"
 #include <iostream>
 
-GLuint vboId;
-Shaders myTriangleShader;
 Globals allGlobals;
 
 int Init ( ESContext *esContext )
@@ -22,94 +20,402 @@ int Init ( ESContext *esContext )
 		glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 	}
 
+/* ------------------------------------ TRIANGLE ------------------------------------ */
+#if DRAW_TRIANGLE
 	// Triangle data
-	Vertex verticesData[3];
+	Vertex verticesDataTriangle[3];
 
 	// Top vertex
-	verticesData[0].pos.x =  0.0f;  verticesData[0].pos.y =  0.5f;  verticesData[0].pos.z =  0.0f;
-	verticesData[0].color.x = 1.0f;  verticesData[0].color.y = 0.0f;  verticesData[0].color.z = 0.0f;
+	verticesDataTriangle[0].pos.x =  0.0f;  verticesDataTriangle[0].pos.y =  0.5f;  verticesDataTriangle[0].pos.z =  0.0f;
+	verticesDataTriangle[0].color.x = 1.0f;  verticesDataTriangle[0].color.y = 0.0f;  verticesDataTriangle[0].color.z = 0.0f;
 
 	// Left vertex
-	verticesData[1].pos.x = -0.5f;  verticesData[1].pos.y = -0.5f;  verticesData[1].pos.z =  0.0f;
-	verticesData[1].color.x = 0.0f;  verticesData[1].color.y = 1.0f;  verticesData[1].color.z = 0.0f;
+	verticesDataTriangle[1].pos.x = -0.5f;  verticesDataTriangle[1].pos.y = -0.5f;  verticesDataTriangle[1].pos.z =  0.0f;
+	verticesDataTriangle[1].color.x = 0.0f;  verticesDataTriangle[1].color.y = 1.0f;  verticesDataTriangle[1].color.z = 0.0f;
 
 	// Right vertex
-	verticesData[2].pos.x =  0.5f;  verticesData[2].pos.y = -0.5f;  verticesData[2].pos.z =  0.0f;
-	verticesData[2].color.x = 0.0f;  verticesData[2].color.y = 0.0f;  verticesData[2].color.z = 1.0f;
+	verticesDataTriangle[2].pos.x =  0.5f;  verticesDataTriangle[2].pos.y = -0.5f;  verticesDataTriangle[2].pos.z =  0.0f;
+	verticesDataTriangle[2].color.x = 0.0f;  verticesDataTriangle[2].color.y = 0.0f;  verticesDataTriangle[2].color.z = 1.0f;
 
 	// Buffer object
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
+	glGenBuffers(1, &allGlobals.vboIdTriangle);
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesDataTriangle), verticesDataTriangle, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Creation of shaders and program 
-	int triangleStatus = myTriangleShader.Init("../Resources/Shaders/TriangleShaderVS.glsl", "../Resources/Shaders/TriangleShaderFS.glsl");
+	int triangleStatus = allGlobals.myTriangleShader.Init("../Resources/Shaders/TriangleShaderVS.glsl", "../Resources/Shaders/TriangleShaderFS.glsl");
 	if (triangleStatus != 0) {
 		std::cerr << "Error creating triangle!\n";
 	}
 
-	return triangleStatus;
+#endif
+/* ------------------------------------ TRIANGLE ------------------------------------ */
+
+/* ------------------------------------ RECTANGLE ------------------------------------ */
+#if DRAW_RECTANGLE3D
+	Vertex verticesDataRectangle[12];
+
+	/* DOWN */
+	// Down - position
+	verticesDataRectangle[0].pos.x = 0.0f;  verticesDataRectangle[0].pos.y = 0.0f;  verticesDataRectangle[0].pos.z = 0.0f;
+	verticesDataRectangle[1].pos.x = -0.5f;  verticesDataRectangle[1].pos.y = -0.5f;  verticesDataRectangle[1].pos.z = 0.0f;
+	verticesDataRectangle[2].pos.x = 0.5f;  verticesDataRectangle[2].pos.y = -0.5f;  verticesDataRectangle[2].pos.z = 0.0f;
+
+	// Down - color
+	verticesDataRectangle[0].color.x = 0.0f;  verticesDataRectangle[0].color.y = 0.0f;  verticesDataRectangle[0].color.z = 0.0f;
+	verticesDataRectangle[1].color.x = 1.0f;  verticesDataRectangle[1].color.y = 1.0f;  verticesDataRectangle[1].color.z = 0.0f;
+	verticesDataRectangle[2].color.x = 0.0f;  verticesDataRectangle[2].color.y = 1.0f;  verticesDataRectangle[2].color.z = 0.0f;
+
+	/* UP */
+	// Up - position
+	verticesDataRectangle[3].pos.x = 0.0f;  verticesDataRectangle[3].pos.y = 0.0f;  verticesDataRectangle[3].pos.z = 0.0f;
+	verticesDataRectangle[4].pos.x = -0.5f;  verticesDataRectangle[4].pos.y = 0.5f;  verticesDataRectangle[4].pos.z = 0.0f;
+	verticesDataRectangle[5].pos.x = 0.5f;  verticesDataRectangle[5].pos.y = 0.5f;  verticesDataRectangle[5].pos.z = 0.0f;
+
+	// Up - color
+	verticesDataRectangle[3].color.x = 0.0f;  verticesDataRectangle[3].color.y = 0.0f;  verticesDataRectangle[3].color.z = 0.0f;
+	verticesDataRectangle[4].color.x = 1.0f;  verticesDataRectangle[4].color.y = 0.0f;  verticesDataRectangle[4].color.z = 0.0f;
+	verticesDataRectangle[5].color.x = 0.0f;  verticesDataRectangle[5].color.y = 0.0f;  verticesDataRectangle[5].color.z = 1.0f;
+
+	/* LEFT */
+	// Left - position
+	verticesDataRectangle[6].pos.x = 0.0f;  verticesDataRectangle[6].pos.y = 0.0f;  verticesDataRectangle[6].pos.z = 0.0f;
+	verticesDataRectangle[7].pos.x = 0.5f;  verticesDataRectangle[7].pos.y = 0.5f;  verticesDataRectangle[7].pos.z = 0.0f;
+	verticesDataRectangle[8].pos.x = 0.5f;  verticesDataRectangle[8].pos.y = -0.5f;  verticesDataRectangle[8].pos.z = 0.0f;
+
+	// Left - color
+	verticesDataRectangle[6].color.x = 0.0f;  verticesDataRectangle[6].color.y = 0.0f;  verticesDataRectangle[6].color.z = 0.0f;
+	verticesDataRectangle[7].color.x = 0.0f;  verticesDataRectangle[7].color.y = 0.0f;  verticesDataRectangle[7].color.z = 1.0f;
+	verticesDataRectangle[8].color.x = 0.0f;  verticesDataRectangle[8].color.y = 1.0f;  verticesDataRectangle[8].color.z = 0.0f;
+
+	/* RIGHT */
+	// Right - position
+	verticesDataRectangle[9].pos.x = 0.0f;  verticesDataRectangle[9].pos.y = 0.0f;  verticesDataRectangle[9].pos.z = 0.0f;
+	verticesDataRectangle[10].pos.x = -0.5f;  verticesDataRectangle[10].pos.y = 0.5f;  verticesDataRectangle[10].pos.z = 0.0f;
+	verticesDataRectangle[11].pos.x = -0.5f;  verticesDataRectangle[11].pos.y = -0.5f;  verticesDataRectangle[11].pos.z = 0.0f;
+
+	// Right - color
+	verticesDataRectangle[9].color.x = 0.0f;  verticesDataRectangle[9].color.y = 0.0f;  verticesDataRectangle[9].color.z = 0.0f;
+	verticesDataRectangle[10].color.x = 1.0f;  verticesDataRectangle[10].color.y = 0.0f;  verticesDataRectangle[10].color.z = 0.0f;
+	verticesDataRectangle[11].color.x = 1.0f;  verticesDataRectangle[11].color.y = 1.0f;  verticesDataRectangle[11].color.z = 0.0f;
+
+	// Buffer object
+	glGenBuffers(1, &allGlobals.vboIdRectangle3D);
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdRectangle3D);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesDataRectangle), verticesDataRectangle, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Creation of shaders and program 
+	int rectangleStatus = allGlobals.myRectangle3DShader.Init("../Resources/Shaders/Rectangle3DShaderVS.glsl", "../Resources/Shaders/Rectangle3DShaderFS.glsl");
+	if (rectangleStatus != 0) {
+		std::cerr << "Error creating rectangle!\n";
+	}
+#endif
+/* ------------------------------------ RECTANGLE ------------------------------------ */
+
+/* ------------------------------------ SQUARE ------------------------------------ */
+#if DRAW_SQUARE
+	Vertex verticesDataSquare[6];
+
+	/* DOWN */
+	// Down - position
+	verticesDataSquare[0].pos.x = 0.0f;  verticesDataSquare[0].pos.y = 0.0f;  verticesDataSquare[0].pos.z = 0.0f;
+	verticesDataSquare[1].pos.x = 0.0f;  verticesDataSquare[1].pos.y = 1.0f;  verticesDataSquare[1].pos.z = 0.0f;
+	verticesDataSquare[2].pos.x = 1.0f;  verticesDataSquare[2].pos.y = 0.0f;  verticesDataSquare[2].pos.z = 0.0f;
+
+	// Down - color
+	verticesDataSquare[0].color.x = 1.0f;  verticesDataSquare[0].color.y = 1.0f;  verticesDataSquare[0].color.z = 0.0f;
+	verticesDataSquare[1].color.x = 1.0f;  verticesDataSquare[1].color.y = 1.0f;  verticesDataSquare[1].color.z = 0.0f;
+	verticesDataSquare[2].color.x = 0.0f;  verticesDataSquare[2].color.y = 1.0f;  verticesDataSquare[2].color.z = 0.0f;
+
+	/* UP */
+	// Up - position
+	verticesDataSquare[3].pos.x = 0.0f;  verticesDataSquare[3].pos.y = 1.0f;  verticesDataSquare[3].pos.z = 0.0f;
+	verticesDataSquare[4].pos.x = 1.0f;  verticesDataSquare[4].pos.y = 0.0f;  verticesDataSquare[4].pos.z = 0.0f;
+	verticesDataSquare[5].pos.x = 1.0f;  verticesDataSquare[5].pos.y = 1.0f;  verticesDataSquare[5].pos.z = 0.0f;
+
+	// Up - color
+	verticesDataSquare[3].color.x = 1.0f;  verticesDataSquare[3].color.y = 0.0f;  verticesDataSquare[3].color.z = 0.0f;
+	verticesDataSquare[4].color.x = 1.0f;  verticesDataSquare[4].color.y = 1.0f;  verticesDataSquare[4].color.z = 1.0f;
+	verticesDataSquare[5].color.x = 0.0f;  verticesDataSquare[5].color.y = 0.0f;  verticesDataSquare[5].color.z = 1.0f;
+
+	// Buffer object
+	glGenBuffers(1, &allGlobals.vboIdSquare);
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdSquare);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesDataSquare), verticesDataSquare, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Creation of shaders and program 
+	int SquareStatus = allGlobals.mySquareShader.Init("../Resources/Shaders/SquareShaderVS.glsl", "../Resources/Shaders/SquareShaderFS.glsl");
+	if (SquareStatus != 0) {
+		std::cerr << "Error creating Square!\n";
+	}
+#endif
+/* ------------------------------------ SQUARE ------------------------------------ */
+
+/* ------------------------------------ MIDDLE LINE ------------------------------------ */
+#if DRAW_MIDDLE_LINE
+	Vertex verticesDataMiddleLine[2];
+
+	/* DOWN */
+	// Down - position
+	verticesDataMiddleLine[0].pos.x = 0.0f;  verticesDataMiddleLine[0].pos.y = 1.0f;  verticesDataMiddleLine[0].pos.z = 0.0f;
+	verticesDataMiddleLine[1].pos.x = 0.0f;  verticesDataMiddleLine[1].pos.y = -1.0f;  verticesDataMiddleLine[1].pos.z = 0.0f;
+
+	// Down - color
+	verticesDataMiddleLine[0].color.x = 1.0f;  verticesDataMiddleLine[0].color.y = 1.0f;  verticesDataMiddleLine[0].color.z = 1.0f;
+	verticesDataMiddleLine[1].color.x = 1.0f;  verticesDataMiddleLine[1].color.y = 1.0f;  verticesDataMiddleLine[1].color.z = 1.0f;
+
+	// Buffer object
+	glGenBuffers(1, &allGlobals.vboIdMiddleLine);
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdMiddleLine);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesDataMiddleLine), verticesDataMiddleLine, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	// Creation of shaders and program 
+	int MiddleLineStatus = allGlobals.myMiddleLineShader.Init("../Resources/Shaders/MiddleLineShaderVS.glsl", "../Resources/Shaders/MiddleLineShaderFS.glsl");
+	if (MiddleLineStatus != 0) {
+		std::cerr << "Error creating MiddleLine!\n";
+	}
+#endif
+/* ------------------------------------ MIDDLE LINE ------------------------------------ */
+
+// Check if anything is being drawn at all
+#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false
+	std::cerr << "Error! Nothing is being drawn on the screen!\n";
+	return -1;
+#endif
+
+	return 0;
 }
 
 void Draw ( ESContext *esContext )
 { 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glUseProgram(myTriangleShader.program);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-
+	// Variables
 	size_t memory_used = 0;
+	Matrix cameraPerspective;
+	Matrix m;
+	Matrix cameraView;
+/* ------------------------------------ TRIANGLE ------------------------------------ */
+#if DRAW_TRIANGLE
+	glUseProgram(allGlobals.myTriangleShader.program);
+
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle);
+
+	memory_used = 0;
 
 	// Send position
-	if(myTriangleShader.positionAttribute != -1)
+	if(allGlobals.myTriangleShader.positionAttribute != -1)
 	{
-		glEnableVertexAttribArray(myTriangleShader.positionAttribute);
-		glVertexAttribPointer(myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
+		glEnableVertexAttribArray(allGlobals.myTriangleShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
 		memory_used += sizeof(Vector3);
 	}
 
 	// Send color
-	if (myTriangleShader.colorAttribute != -1)
+	if (allGlobals.myTriangleShader.colorAttribute != -1)
 	{
-		glEnableVertexAttribArray(myTriangleShader.colorAttribute);
-		glVertexAttribPointer(myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
+		glEnableVertexAttribArray(allGlobals.myTriangleShader.colorAttribute);
+		glVertexAttribPointer(allGlobals.myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
 		memory_used += sizeof(Vector3);
 	}
 
 	// Camera rotation (matrix uniform)
-	Matrix m;
 	m.SetRotationZ(0);
-	if (myTriangleShader.matrixUniform != -1)
+	if (allGlobals.myTriangleShader.matrixUniform != -1)
 	{
-		glUniformMatrix4fv(myTriangleShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
+		glUniformMatrix4fv(allGlobals.myTriangleShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
 	}
 
 	// Camera perspective
-	Matrix cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
-	if (myTriangleShader.perspectiveUniform != -1)
+	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (allGlobals.myTriangleShader.perspectiveUniform != -1)
 	{
-		glUniformMatrix4fv(myTriangleShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+		glUniformMatrix4fv(allGlobals.myTriangleShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
 	}
 
 	// Camera view
-	Matrix cameraView = allGlobals.myCamera.getViewMatrix();
-	if (myTriangleShader.viewUniform != -1)
+	cameraView = allGlobals.myCamera.getViewMatrix();
+	if (allGlobals.myTriangleShader.viewUniform != -1)
 	{
-		glUniformMatrix4fv(myTriangleShader.viewUniform, 1, GL_FALSE, (GLfloat*) cameraView.m);
+		glUniformMatrix4fv(allGlobals.myTriangleShader.viewUniform, 1, GL_FALSE, (GLfloat*) cameraView.m);
 	}
 
 	// Add rotation to the triangle
 	Matrix rotationOfTriangle;
+#if ENFORCE_ROTATION == false
 	rotationOfTriangle.SetRotationZ(allGlobals.rotationAngle += allGlobals.rotationAngleIncreaseSpeed);
+#else 
+	rotationOfTriangle.SetRotationZ(allGlobals.enforcedRotation);
+#endif
 
-	if (myTriangleShader.rotationUniform != -1)
+	if (allGlobals.myTriangleShader.rotationUniform != -1)
 	{
-		glUniformMatrix4fv(myTriangleShader.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfTriangle.m);
+		glUniformMatrix4fv(allGlobals.myTriangleShader.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfTriangle.m);
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+#endif
+/* ------------------------------------ TRIANGLE ------------------------------------ */
+
+/* ------------------------------------ RECTANGLE ------------------------------------ */
+#if DRAW_RECTANGLE3D
+	glUseProgram(allGlobals.myRectangle3DShader.program);
+
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdRectangle3D);
+
+	memory_used = 0;
+
+	// Send position
+	if (allGlobals.myRectangle3DShader.positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Send color
+	if (allGlobals.myRectangle3DShader.colorAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.colorAttribute);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Camera rotation (matrix uniform)
+	m.SetRotationZ(0);
+	if (allGlobals.myRectangle3DShader.matrixUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myRectangle3DShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
+	}
+
+	// Camera perspective
+	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (allGlobals.myRectangle3DShader.perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myRectangle3DShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	cameraView = allGlobals.myCamera.getViewMatrix();
+	if (allGlobals.myRectangle3DShader.viewUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myRectangle3DShader.viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
+	}
+
+	// Add rotation to the rectangle
+	Matrix rotationOfRectangle3D;
+#if ENFORCE_ROTATION == false
+	rotationOfRectangle3D.SetRotationZ(allGlobals.rotationAngleRectangle3D += allGlobals.rotationAngleIncreaseSpeedRectangle3D);
+#else 
+	rotationOfRectangle3D.SetRotationZ(allGlobals.enforcedRotation);
+#endif
+
+	if (allGlobals.myRectangle3DShader.rotationUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myRectangle3DShader.rotationUniform, 1, GL_FALSE, (GLfloat*)rotationOfRectangle3D.m);
+	}
+
+	glDrawArrays(GL_TRIANGLES, 0, 12);
+
+#endif
+/* ------------------------------------ RECTANGLE ------------------------------------ */
+
+/* ------------------------------------ SQUARE ------------------------------------ */
+#if DRAW_SQUARE
+	glUseProgram(allGlobals.mySquareShader.program);
+
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdSquare);
+
+	memory_used = 0;
+
+	// Send position
+	if (allGlobals.mySquareShader.positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.mySquareShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.mySquareShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Send color
+	if (allGlobals.mySquareShader.colorAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.mySquareShader.colorAttribute);
+		glVertexAttribPointer(allGlobals.mySquareShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Camera rotation (matrix uniform)
+	m.SetRotationZ(0);
+	if (allGlobals.mySquareShader.matrixUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.mySquareShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
+	}
+
+	// Camera perspective
+	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (allGlobals.mySquareShader.perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.mySquareShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	cameraView = allGlobals.myCamera.getViewMatrix();
+	if (allGlobals.mySquareShader.viewUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.mySquareShader.viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
+	}
+
+	// Add rotation to the rectangle
+	Matrix rotationOfSquare;
+#if ENFORCE_ROTATION == false
+	rotationOfSquare.SetRotationZ(allGlobals.rotationAngleSquare += allGlobals.rotationAngleIncreaseSpeedSquare);
+#else 
+	rotationOfSquare.SetRotationZ(allGlobals.enforcedRotation);
+#endif
+	
+	if (allGlobals.mySquareShader.rotationUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.mySquareShader.rotationUniform, 1, GL_FALSE, (GLfloat*)rotationOfSquare.m);
+	}
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+#endif
+/* ------------------------------------ SQUARE ------------------------------------ */
+
+/* ------------------------------------ MIDDLE LINE ------------------------------------ */
+#if DRAW_MIDDLE_LINE
+	glUseProgram(allGlobals.myMiddleLineShader.program);
+
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdMiddleLine);
+
+	memory_used = 0;
+
+	// Send position
+	if (allGlobals.myMiddleLineShader.positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myMiddleLineShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.myMiddleLineShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Send color
+	if (allGlobals.myMiddleLineShader.colorAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myMiddleLineShader.colorAttribute);
+		glVertexAttribPointer(allGlobals.myMiddleLineShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	glDrawArrays(GL_LINES, 0, 2);
+
+#endif
+/* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -197,9 +503,33 @@ void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 	}
 }
 
+void Mouse(ESContext* esContext, float mouseX, float mouseY)
+{
+	if (mouseX <= allGlobals.screen_size.screenWidth / 2) {
+		allGlobals.enforcedRotation -= allGlobals.enforcedRotationStep;
+	}
+	else {
+		allGlobals.enforcedRotation += allGlobals.enforcedRotationStep;
+	}
+}
+
 void CleanUp()
 {
-	glDeleteBuffers(1, &vboId);
+#if DRAW_TRIANGLE
+	glDeleteBuffers(1, &allGlobals.vboIdTriangle);
+#endif
+
+#if DRAW_RECTANGLE3D
+	glDeleteBuffers(1, &allGlobals.vboIdRectangle3D);
+#endif
+
+#if DRAW_SQUARE
+	glDeleteBuffers(1, &allGlobals.vboIdSquare);
+#endif
+
+#if DRAW_MIDDLE_LINE
+	glDeleteBuffers(1, &allGlobals.vboIdMiddleLine);
+#endif
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -219,6 +549,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	esRegisterDrawFunc ( &esContext, Draw );
 	esRegisterUpdateFunc ( &esContext, Update );
 	esRegisterKeyFunc ( &esContext, Key);
+	esRegisterMouseFunc(&esContext, Mouse);
 
 	esMainLoop ( &esContext );
 

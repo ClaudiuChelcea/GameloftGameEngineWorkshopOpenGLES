@@ -182,6 +182,12 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\Shaders\MiddleLineShaderFS.glsl" />
+    <None Include="..\Resources\Shaders\MiddleLineShaderVS.glsl" />
+    <None Include="..\Resources\Shaders\Rectangle3DShaderFS.glsl" />
+    <None Include="..\Resources\Shaders\Rectangle3DShaderVS.glsl" />
+    <None Include="..\Resources\Shaders\SquareShaderFS.glsl" />
+    <None Include="..\Resources\Shaders\SquareShaderVS.glsl" />
     <None Include="..\Resources\Shaders\TriangleShaderFS.glsl" />
     <None Include="..\Resources\Shaders\TriangleShaderVS.glsl" />
     <None Include="..\..\Readme.doc" />
