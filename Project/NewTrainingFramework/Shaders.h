@@ -13,8 +13,13 @@ public:
 	// Color
 	GLint colorAttribute;
 
-	// ROtation
+	// Rotation
 	GLint rotationUniform;
+
+	// Camera
+	GLint matrixUniform;
+	GLint viewUniform;
+	GLint perspectiveUniform;
 
 	char fileVS[260];
 	char fileFS[260];

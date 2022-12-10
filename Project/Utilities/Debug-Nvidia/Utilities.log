@@ -1,1 +1,12 @@
-﻿  Utilities.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Utilities.lib
+﻿  Math.cpp
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(138): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(142): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(146): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(147): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(148): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(149): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(150): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.cpp(10): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.cpp(104): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.cpp(208): warning C4244: 'return': conversion from 'double' to 'GLfloat', possible loss of data
+  Utilities.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Utilities.lib

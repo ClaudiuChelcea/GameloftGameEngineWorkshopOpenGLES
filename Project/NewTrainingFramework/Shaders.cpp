@@ -29,6 +29,11 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	// Rotation
 	this->rotationUniform = glGetUniformLocation(this->program, "a_rotation");
 
+	// Camera
+	this->matrixUniform = glGetUniformLocation(this->program, "u_rotZ");
+	this->viewUniform = glGetUniformLocation(this->program, "u_view");
+	this->perspectiveUniform = glGetUniformLocation(this->program, "u_persp");
+
 	return 0;
 }
 

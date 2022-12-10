@@ -10,16 +10,15 @@
 #include <iostream>
 
 GLuint vboId;
-Shaders myShaders;
-float rotationAngle = 0.0f;
-float rotationAngleIncreaseSpeed = 0.01f;
+Shaders myTriangleShader;
+Globals allGlobals;
 
 int Init ( ESContext *esContext )
 {
 	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 
 	/* DEBUG */ 
-	if (false) {
+	if (allGlobals.DEBUGGER.DEBUG_BACKGROUND) {
 		glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
 	}
 
@@ -45,7 +44,7 @@ int Init ( ESContext *esContext )
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Creation of shaders and program 
-	int triangleStatus = myShaders.Init("../Resources/Shaders/TriangleShaderVS.glsl", "../Resources/Shaders/TriangleShaderFS.glsl");
+	int triangleStatus = myTriangleShader.Init("../Resources/Shaders/TriangleShaderVS.glsl", "../Resources/Shaders/TriangleShaderFS.glsl");
 	if (triangleStatus != 0) {
 		std::cerr << "Error creating triangle!\n";
 	}
@@ -57,33 +56,57 @@ void Draw ( ESContext *esContext )
 { 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glUseProgram(myShaders.program);
+	glUseProgram(myTriangleShader.program);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 
 	size_t memory_used = 0;
 
-	if(myShaders.positionAttribute != -1)
+	// Send position
+	if(myTriangleShader.positionAttribute != -1)
 	{
-		glEnableVertexAttribArray(myShaders.positionAttribute);
-		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
+		glEnableVertexAttribArray(myTriangleShader.positionAttribute);
+		glVertexAttribPointer(myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
 		memory_used += sizeof(Vector3);
 	}
 
-	if (myShaders.colorAttribute != -1)
+	// Send color
+	if (myTriangleShader.colorAttribute != -1)
 	{
-		glEnableVertexAttribArray(myShaders.colorAttribute);
-		glVertexAttribPointer(myShaders.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
+		glEnableVertexAttribArray(myTriangleShader.colorAttribute);
+		glVertexAttribPointer(myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
 		memory_used += sizeof(Vector3);
+	}
+
+	// Camera rotation (matrix uniform)
+	Matrix m;
+	m.SetRotationZ(0);
+	if (myTriangleShader.matrixUniform != -1)
+	{
+		glUniformMatrix4fv(myTriangleShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
+	}
+
+	// Camera perspective
+	Matrix cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (myTriangleShader.perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(myTriangleShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	Matrix cameraView = allGlobals.myCamera.getViewMatrix();
+	if (myTriangleShader.viewUniform != -1)
+	{
+		glUniformMatrix4fv(myTriangleShader.viewUniform, 1, GL_FALSE, (GLfloat*) cameraView.m);
 	}
 
 	// Add rotation to the triangle
 	Matrix rotationOfTriangle;
-	rotationOfTriangle.SetRotationZ(rotationAngle+=rotationAngleIncreaseSpeed);
+	rotationOfTriangle.SetRotationZ(allGlobals.rotationAngle += allGlobals.rotationAngleIncreaseSpeed);
 
-	if (myShaders.rotationUniform != -1)
+	if (myTriangleShader.rotationUniform != -1)
 	{
-		glUniformMatrix4fv(myShaders.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfTriangle.m);
+		glUniformMatrix4fv(myTriangleShader.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfTriangle.m);
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -95,12 +118,83 @@ void Draw ( ESContext *esContext )
 
 void Update ( ESContext *esContext, float deltaTime )
 {
-
+	/* Send info to allGlobals.myCamera */
+	// Limit update
+	#if LOCK_UPDATE
+	allGlobals.currentTime += deltaTime;
+	if (allGlobals.currentTime > allGlobals.maxTime) {
+		allGlobals.currentTime = 0.0f;
+		return;
+	}
+	#endif
+	allGlobals.myCamera.setDeltaTime(deltaTime);
 }
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-	
+	/* Update allGlobals.myCamera */
+	// WASD movement
+	if (key == "W"[0] || key == "w"[0]) {
+		allGlobals.myCamera.moveOy(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "S"[0] || key == "s"[0]) {
+		allGlobals.myCamera.moveOy(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "A"[0] || key == "a"[0]) {
+		allGlobals.myCamera.moveOx(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "D"[0] || key == "d"[0]) {
+		allGlobals.myCamera.moveOx(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	// ZOOM IN AND OUT
+	if (key == "Z"[0] || key == "z"[0]) {
+		allGlobals.myCamera.moveOz(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "X"[0] || key == "x"[0]) {
+		allGlobals.myCamera.moveOz(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	// ROTATE CAMERA
+	if (key == "F"[0] || key == "f"[0]) {
+		allGlobals.myCamera.rotateOy(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "G"[0] || key == "g"[0]) {
+		allGlobals.myCamera.rotateOy(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "H"[0] || key == "h"[0]) {
+		allGlobals.myCamera.rotateOx(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "J"[0] || key == "j"[0]) {
+		allGlobals.myCamera.rotateOx(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "K"[0] || key == "k"[0]) {
+		allGlobals.myCamera.rotateOz(allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
+
+	if (key == "L"[0] || key == "l"[0]) {
+		allGlobals.myCamera.rotateOz(-allGlobals.myCamera.getMoveSpeed());
+		allGlobals.myCamera.updateWorldView();
+	}
 }
 
 void CleanUp()
@@ -117,7 +211,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     esInitContext ( &esContext );
 
-	esCreateWindow ( &esContext, Globals::screenTitle.c_str(), Globals::screen_size.screenWidth, Globals::screen_size.screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+	esCreateWindow ( &esContext, allGlobals.screenTitle.c_str(), allGlobals.screen_size.screenWidth, allGlobals.screen_size.screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
 
 	if ( Init ( &esContext ) != 0 )
 		return 0;

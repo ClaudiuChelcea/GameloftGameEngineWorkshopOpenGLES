@@ -128,42 +128,62 @@ public:
 	//constructors
 	Matrix() {}
 	Matrix(GLfloat val);
-	Matrix(Matrix & mat);
+	Matrix(Matrix& mat);
+	// Matrix(GLfloat xAxis.x, GLfloat xAxis.y, GLfloat xAxis.z, 0, GLfloat yAxis.x, GLfloat yAxis.y, GLfloat yAxis.z, 0, GLfloat zAxis.x, GLfloat zAxis.y, GLfloat zAxis.z, 0, 0, 0, 0, 1)
+	Matrix(GLfloat x1, GLfloat y1, GLfloat z1, int w1, GLfloat x2, GLfloat y2, GLfloat z2, int w2, GLfloat x3, GLfloat y3, GLfloat z3, int w3, int x4, int y4, int z4, int w4)
+	{
+		m[0][0] = x1;
+		m[0][1] = y1;
+		m[0][2] = z1;
+		m[0][3] = w1;
+		m[1][0] = x2;
+		m[1][1] = y2;
+		m[1][2] = z2;
+		m[1][3] = w2;
+		m[2][0] = x3;
+		m[2][1] = y3;
+		m[2][2] = z3;
+		m[2][3] = w3;
+		m[3][0] = x4;
+		m[3][1] = y4;
+		m[3][2] = z4;
+		m[3][3] = w4;
+	}
 
 	// Matrix operations
-	Matrix & SetZero();
-	Matrix & SetIdentity();
+	Matrix& SetZero();
+	Matrix& SetIdentity();
 
-	Matrix & SetRotationX(GLfloat angle);
-	Matrix & SetRotationY(GLfloat angle);
-	Matrix & SetRotationZ(GLfloat angle);
-	Matrix & SetRotationAngleAxis( float angle, float x, float y, float z );
+	Matrix& SetRotationX(GLfloat angle);
+	Matrix& SetRotationY(GLfloat angle);
+	Matrix& SetRotationZ(GLfloat angle);
+	Matrix& SetRotationAngleAxis(float angle, float x, float y, float z);
 
-	Matrix & SetScale(GLfloat scale);
-	Matrix & SetScale(GLfloat scaleX, GLfloat scaleY, GLfloat scaleZ);
-	Matrix & SetScale(GLfloat * pScale);
-	Matrix & SetScale(Vector3 &scaleVec);
+	Matrix& SetScale(GLfloat scale);
+	Matrix& SetScale(GLfloat scaleX, GLfloat scaleY, GLfloat scaleZ);
+	Matrix& SetScale(GLfloat* pScale);
+	Matrix& SetScale(Vector3& scaleVec);
 
-	Matrix & SetTranslation(GLfloat x, GLfloat y, GLfloat z);
-	Matrix & SetTranslation(GLfloat *pTrans);
-	Matrix & SetTranslation(Vector3 &vec);
+	Matrix& SetTranslation(GLfloat x, GLfloat y, GLfloat z);
+	Matrix& SetTranslation(GLfloat* pTrans);
+	Matrix& SetTranslation(Vector3& vec);
 
-	Matrix & SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane, GLfloat farPlane);
+	Matrix& SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane, GLfloat farPlane);
 
 	Matrix Transpose();
 
-	Matrix operator + (Matrix & mat);
-	Matrix & operator += (Matrix & mat);
-	Matrix operator - (Matrix & mat);
-	Matrix &operator -= (Matrix & mat);
+	Matrix operator + (Matrix& mat);
+	Matrix& operator += (Matrix& mat);
+	Matrix operator - (Matrix& mat);
+	Matrix& operator -= (Matrix& mat);
 
-	Matrix operator * (Matrix & mat);
+	Matrix operator * (Matrix& mat);
 	Matrix operator * (GLfloat k);
-	Matrix & operator *= (GLfloat k);
+	Matrix& operator *= (GLfloat k);
 
-	Vector4 operator * (Vector4 & vec);
+	Vector4 operator * (Vector4& vec);
 
-	Matrix & operator = (Matrix & mat);
+	Matrix& operator = (Matrix& mat);
 
 	//data members
 	GLfloat m[4][4];

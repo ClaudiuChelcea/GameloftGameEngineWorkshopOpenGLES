@@ -7,11 +7,14 @@ varying vec3 v_color;
 
 // Constant to all points
 uniform mat4 a_rotation;
+uniform mat4 u_rotZ;
+uniform mat4 u_view;
+uniform mat4 u_persp;
 
 void main()
 {
 	// Predefined
-	gl_Position = a_rotation * vec4(a_posL, 1.0);
+	gl_Position = u_persp * u_view * u_rotZ * a_rotation * vec4(a_posL, 1.0);
 
 	// Color
 	v_color = a_color;
