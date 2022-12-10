@@ -1,0 +1,39 @@
+Semester long workshop about creating a game engine and then a game using the game engine created held by Gameloft.
+
+Topics:
+* 3D Engine
+* Advanced Debugging
+* Design Patterns
+* Memory management
+* Shaders
+* Cool Effects
+* Rendering Techniques
+And many more….
+
+Shader aspects:
+– adding models with textures inside a scene;
+– using geometric transformations to scale and move the objects inside the scene and to implement a camera;
+– implementing trajectories for the scene objects;
+– creating a terrain. Mixing textures using a blend map. Using a height map;
+– adding a skybox;
+– skybox reflection;
+– fog effect;
+– using lights (Phong model);
+– normal mapping;
+– creating an animated fire using a displacement map;
+– text rendering;
+– collisions;
+– adding sounds corresponding to different events inside the game;
+– using framebuffers for post-processing effects: changing the scene to grayscale, adding blur and bloom effects;
+– and some other (optional but cool) effects, for those that finish the project earlier.
+
+Secondary aspects:
+– you will learn how to work with Visual Studio and use its features and shortcuts and also how to use a Visual Studio plugin;
+– several debugging techniques;
+– an introduction to design patterns (we will use the singleton and factory designs);
+– memory management;
+– writing an XML file. Using a C++ library to read from an XML file.
+
+Programming languages used: C++ and GLSL (shading language).
+
+Libraries used: OpenGL ES 2.0.
