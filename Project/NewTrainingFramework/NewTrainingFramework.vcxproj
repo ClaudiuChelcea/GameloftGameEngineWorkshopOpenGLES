@@ -180,8 +180,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Resources\Shaders\TriangleShaderFS.fs" />
-    <None Include="..\Resources\Shaders\TriangleShaderVS.vs" />
+    <None Include="..\Resources\Shaders\TriangleShaderFS.glsl" />
+    <None Include="..\Resources\Shaders\TriangleShaderVS.glsl" />
     <None Include="..\..\Readme.doc" />
   </ItemGroup>
   <ItemGroup>

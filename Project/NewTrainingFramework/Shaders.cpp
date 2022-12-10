@@ -26,6 +26,9 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	// Color
 	this->colorAttribute = glGetAttribLocation(this->program, "a_color");
 
+	// Rotation
+	this->rotationUniform = glGetUniformLocation(this->program, "a_rotation");
+
 	return 0;
 }
 

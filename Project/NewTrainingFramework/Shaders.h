@@ -13,6 +13,9 @@ public:
 	// Color
 	GLint colorAttribute;
 
+	// ROtation
+	GLint rotationUniform;
+
 	char fileVS[260];
 	char fileFS[260];
 

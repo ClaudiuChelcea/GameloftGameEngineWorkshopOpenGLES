@@ -11,6 +11,8 @@
 
 GLuint vboId;
 Shaders myShaders;
+float rotationAngle = 0.0f;
+float rotationAngleIncreaseSpeed = 0.01f;
 
 int Init ( ESContext *esContext )
 {
@@ -43,7 +45,7 @@ int Init ( ESContext *esContext )
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	// Creation of shaders and program 
-	int triangleStatus = myShaders.Init("../Resources/Shaders/TriangleShaderVS.vs", "../Resources/Shaders/TriangleShaderFS.fs");
+	int triangleStatus = myShaders.Init("../Resources/Shaders/TriangleShaderVS.glsl", "../Resources/Shaders/TriangleShaderFS.glsl");
 	if (triangleStatus != 0) {
 		std::cerr << "Error creating triangle!\n";
 	}
@@ -73,6 +75,15 @@ void Draw ( ESContext *esContext )
 		glEnableVertexAttribArray(myShaders.colorAttribute);
 		glVertexAttribPointer(myShaders.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
 		memory_used += sizeof(Vector3);
+	}
+
+	// Add rotation to the triangle
+	Matrix rotationOfTriangle;
+	rotationOfTriangle.SetRotationZ(rotationAngle+=rotationAngleIncreaseSpeed);
+
+	if (myShaders.rotationUniform != -1)
+	{
+		glUniformMatrix4fv(myShaders.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfTriangle.m);
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
