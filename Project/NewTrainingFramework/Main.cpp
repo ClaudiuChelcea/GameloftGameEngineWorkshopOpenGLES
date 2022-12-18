@@ -224,18 +224,54 @@ int Init ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
-// Check if anything is being drawn at all
-#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false
-	std::cerr << "Error! Nothing is being drawn on the screen!\n";
-	return -1;
+/* ------------------------------------ CROCODILE ------------------------------------ */
+#if DRAW_CROCODILE
+	allGlobals.myCrocodile.InitNFG(allGlobals.myCrocodile.openFile(allGlobals.myCrocodile.getModelPath().c_str())); // NFT and scanning
+	glGenTextures(1, &allGlobals.crocodileTextureID);
+
+	// Creation of shaders and program 
+	int CrocodileStatus = allGlobals.myCrocodileShader.Init("../Resources/Shaders/CrocodileShaderVS.glsl", "../Resources/Shaders/CrocodileShaderFS.glsl");
+	if (CrocodileStatus != 0) {
+		std::cerr << "Error creating Crocodile!\n";
+	}
+
+	glBindTexture(GL_TEXTURE_2D, allGlobals.crocodileTextureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	allGlobals.TGA_ANSWER = LoadTGA("../../Resources/Textures/Croco.tga", &allGlobals.width, &allGlobals.height, &allGlobals.bpp);
+	if (allGlobals.TGA_ANSWER == NULL) {
+		std::cerr << "Couldn't load Croco tga!\n";
+		std::abort();
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLint)allGlobals.width, (GLint)allGlobals.height, 0, GL_RGBA,
+	GL_UNSIGNED_BYTE, allGlobals.TGA_ANSWER);
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glEnable(GL_DEPTH_TEST);
 #endif
+/* ------------------------------------ CROCODILE ------------------------------------ */
+
+	// Check if anything is being drawn at all
+	#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false && DRAW_CROCODILE == false
+		std::cerr << "Error! Nothing is being drawn on the screen!\n";
+		return -1;
+	#endif
+
+#if ENABLE_XML
+		allGlobals.myXMLreader.printMe();
+#endif
+
 
 	return 0;
 }
 
 void Draw ( ESContext *esContext )
 { 
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Variables
 	size_t memory_used = 0;
@@ -520,6 +556,80 @@ void Draw ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
+/* ------------------------------------ CROCODILE ------------------------------------ */
+#if DRAW_CROCODILE
+	glUseProgram(allGlobals.myCrocodileShader.program);
+
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.myCrocodile.getVBO());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, allGlobals.myCrocodile.getIBO());
+	
+	memory_used = 0;
+
+	// Send position
+	if (allGlobals.myCrocodileShader.positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myCrocodileShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.myCrocodileShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
+		memory_used += sizeof(Vector3);
+	}
+
+	// Camera perspective
+	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (allGlobals.myCrocodileShader.perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myCrocodileShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	cameraView = allGlobals.myCamera.getViewMatrix();
+	if (allGlobals.myCrocodileShader.viewUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myCrocodileShader.viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
+	}
+
+	if (allGlobals.myCrocodileShader.uvAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myCrocodileShader.uvAttribute);
+		glVertexAttribPointer(allGlobals.myCrocodileShader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) (5 * sizeof(Vector3)));
+	}
+
+	// Scalation matrix
+	Matrix scalationMatrix;
+	scalationMatrix.SetScale(0.01f);
+	if (allGlobals.myCrocodileShader.scalationUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myCrocodileShader.scalationUniform, 1, GL_FALSE, (GLfloat*) scalationMatrix.m);
+	}
+
+	// Rotation of object
+	Matrix rotationOfCrocodile;
+
+#if ENFORCE_ROTATION == false
+	//rotationOfCrocodile.SetRotationX(allGlobals.rotationAngleSquare -= allGlobals.rotationAngleIncreaseSpeedSquare);
+	rotationOfCrocodile.SetRotationZ(-3.15);
+#else 
+	rotationOfCrocodile.SetRotationY(allGlobals.enforcedRotation);
+	rotationOfCrocodile.SetRotationX(-0.5);
+#endif
+
+	if (allGlobals.myCrocodileShader.rotationUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myCrocodileShader.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfCrocodile.m);
+	}
+
+	// Texture
+	if (allGlobals.myCrocodileShader.textureUniform != -1)
+	{
+		glUniform1i(allGlobals.myCrocodileShader.textureUniform, 0);
+	}
+	else {
+		std::cerr << "Error sending texture!";
+	}
+
+	glDrawElements(GL_TRIANGLES, allGlobals.myCrocodile.getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
+
+#endif
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
@@ -610,9 +720,11 @@ void Mouse(ESContext* esContext, float mouseX, float mouseY)
 {
 	if (mouseX <= allGlobals.screen_size.screenWidth / 2) {
 		allGlobals.enforcedRotation += allGlobals.enforcedRotationStep;
+		// std::cout << "Left" << std::endl;
 	}
 	else {
 		allGlobals.enforcedRotation -= allGlobals.enforcedRotationStep;
+		// std::cout << "Right" << std::endl;
 	}
 }
 
@@ -637,6 +749,11 @@ void CleanUp()
 #if DRAW_MIDDLE_LINE
 	glDeleteBuffers(1, &allGlobals.vboIdMiddleLine);
 #endif
+
+#if DRAW_CROCODILE
+	delete allGlobals.TGA_ANSWER;
+#endif
+
 }
 
 int _tmain(int argc, _TCHAR* argv[])

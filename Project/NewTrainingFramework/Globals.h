@@ -2,6 +2,8 @@
 #include <string>
 #include "Camera.h"
 #include "Shaders.h"
+#include "Crocodile.h"
+#include "XMLreader.h"
 
 static class Globals
 {
@@ -12,7 +14,7 @@ static class Globals
 		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 		GLfloat moveSpeed = { 1.0f };
 		GLfloat rotateSpeed = 0.5f;
-		GLfloat nearC = 0.1f;
+		GLfloat nearC = 0.0001f;
 		GLfloat farC = 10000.0f;
 		GLfloat fov = 5.0f;
 	public:
@@ -39,7 +41,7 @@ static class Globals
 		float rotationAngleIncreaseSpeed = 0.01f;
 
 		// Rectangle
-		#define DRAW_RECTANGLE3D true
+		#define DRAW_RECTANGLE3D false
 		#define VBO false
 		#if VBO == true
 				GLuint vboIdRectangle3D;
@@ -58,10 +60,22 @@ static class Globals
 		float rotationAngleSquare = 0.0f;
 		float rotationAngleIncreaseSpeedSquare = 0.01f;
 
-		// Rectangle
-		#define DRAW_MIDDLE_LINE true
+		// Middle Line
+		#define DRAW_MIDDLE_LINE false
 		GLuint vboIdMiddleLine;
 		Shaders myMiddleLineShader;
+
+		// Crocodile
+		#define DRAW_CROCODILE true
+		Shaders myCrocodileShader;
+		Crocodile myCrocodile;
+		float rotationAngleCrocodile = 0.0f;
+		float rotationAngleIncreaseSpeedCrocodile = 0.01f;
+		GLuint crocodileTextureID;
+		int width = 0;
+		int height = 0;
+		int bpp = 0;
+		char* TGA_ANSWER = NULL;
 
 		/* Camera */
 		Camera myCamera = Camera(position, target, up, moveSpeed, rotateSpeed, nearC, farC, fov);
@@ -72,7 +86,11 @@ static class Globals
 		GLfloat maxTime = 0.05f;
 
 		// Enforced rotation on mouse click
-		#define ENFORCE_ROTATION true
+		#define ENFORCE_ROTATION false
 		GLfloat enforcedRotation = 0;
 		GLfloat enforcedRotationStep = 90;
+
+		// XML
+		#define ENABLE_XML true
+		XMLreader myXMLreader{ "../../Resources/Test/XML_test.xml" };
 };

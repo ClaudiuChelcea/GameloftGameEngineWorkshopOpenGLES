@@ -13,6 +13,9 @@ public:
 	// Color
 	GLint colorAttribute;
 
+	// Uv
+	GLint uvAttribute;
+
 	// Rotation
 	GLint rotationUniform;
 
@@ -20,6 +23,12 @@ public:
 	GLint matrixUniform;
 	GLint viewUniform;
 	GLint perspectiveUniform;
+
+	// Scalation
+	GLint scalationUniform;
+
+	// Texture
+	GLint textureUniform;
 
 	char fileVS[260];
 	char fileFS[260];

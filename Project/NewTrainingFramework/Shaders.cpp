@@ -26,13 +26,22 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 	// Color
 	this->colorAttribute = glGetAttribLocation(this->program, "a_color");
 
-	// Rotation
-	this->rotationUniform = glGetUniformLocation(this->program, "a_rotation");
+	// Rotation of object
+	this->rotationUniform = glGetUniformLocation(this->program, "u_rotation");
 
 	// Camera
 	this->matrixUniform = glGetUniformLocation(this->program, "u_rotZ");
 	this->viewUniform = glGetUniformLocation(this->program, "u_view");
 	this->perspectiveUniform = glGetUniformLocation(this->program, "u_persp");
+
+	// Uv
+	this->uvAttribute = glGetAttribLocation(this->program, "a_uv");
+
+	// Scalation
+	this->scalationUniform = glGetUniformLocation(this->program, "u_scalation");
+
+	// Texture
+	this->textureUniform = glGetUniformLocation(this->program, "u_texture");
 
 	return 0;
 }
