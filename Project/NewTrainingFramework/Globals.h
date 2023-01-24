@@ -42,7 +42,7 @@ static class Globals
 
 		// Rectangle
 		#define DRAW_RECTANGLE3D false
-		#define VBO false
+		#define VBO true
 		#if VBO == true
 				GLuint vboIdRectangle3D;
 		#else 
@@ -66,7 +66,7 @@ static class Globals
 		Shaders myMiddleLineShader;
 
 		// Crocodile
-		#define DRAW_CROCODILE true
+		#define DRAW_CROCODILE false
 		Shaders myCrocodileShader;
 		Crocodile myCrocodile;
 		float rotationAngleCrocodile = 0.0f;
@@ -91,6 +91,10 @@ static class Globals
 		GLfloat enforcedRotationStep = 90;
 
 		// XML
-		#define ENABLE_XML true
+		#define ENABLE_XML false
+		#define PRINT_XML false
 		XMLreader myXMLreader{ "../../Resources/Test/XML_test.xml" };
+
+		// FLAGS
+		#define QUIT_IF_NOTHING_TO_DRAW false
 };

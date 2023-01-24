@@ -258,7 +258,9 @@ int Init ( ESContext *esContext )
 	// Check if anything is being drawn at all
 	#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false && DRAW_CROCODILE == false
 		std::cerr << "Error! Nothing is being drawn on the screen!\n";
+		#if QUIT_IF_NOTHING_TO_DRAW 
 		return -1;
+		#endif
 	#endif
 
 #if ENABLE_XML
@@ -274,7 +276,6 @@ void Draw ( ESContext *esContext )
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Variables
-	size_t memory_used = 0;
 	Matrix cameraPerspective;
 	Matrix m;
 	Matrix cameraView;
@@ -284,22 +285,19 @@ void Draw ( ESContext *esContext )
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle);
 
-	memory_used = 0;
 
 	// Send position
 	if(allGlobals.myTriangleShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myTriangleShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Send color
 	if (allGlobals.myTriangleShader.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myTriangleShader.colorAttribute);
-		glVertexAttribPointer(allGlobals.myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(Vector3));
 	}
 
 	// Camera rotation (matrix uniform)
@@ -348,22 +346,19 @@ void Draw ( ESContext *esContext )
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdRectangle3D);
 
-	memory_used = 0;
 
 	// Send position
 	if (allGlobals.myRectangle3DShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myRectangle3DShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Send color
 	if (allGlobals.myRectangle3DShader.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.colorAttribute);
-		glVertexAttribPointer(allGlobals.myRectangle3DShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(Vector3));
 	}
 
 	// Camera rotation (matrix uniform)
@@ -406,22 +401,18 @@ void Draw ( ESContext *esContext )
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdRectangle3D);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, allGlobals.iboIdRectangle3D);
 
-	memory_used = 0;
-
 	// Send position
 	if (allGlobals.myRectangle3DShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myRectangle3DShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Send color
 	if (allGlobals.myRectangle3DShader.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myRectangle3DShader.colorAttribute);
-		glVertexAttribPointer(allGlobals.myRectangle3DShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myRectangle3DShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(Vector3));
 	}
 
 	// Camera rotation (matrix uniform)
@@ -470,22 +461,18 @@ void Draw ( ESContext *esContext )
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdSquare);
 
-	memory_used = 0;
-
 	// Send position
 	if (allGlobals.mySquareShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.mySquareShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.mySquareShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.mySquareShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Send color
 	if (allGlobals.mySquareShader.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.mySquareShader.colorAttribute);
-		glVertexAttribPointer(allGlobals.mySquareShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.mySquareShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(Vector3));
 	}
 
 	// Camera rotation (matrix uniform)
@@ -533,22 +520,18 @@ void Draw ( ESContext *esContext )
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdMiddleLine);
 
-	memory_used = 0;
-
 	// Send position
 	if (allGlobals.myMiddleLineShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myMiddleLineShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myMiddleLineShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myMiddleLineShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Send color
 	if (allGlobals.myMiddleLineShader.colorAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myMiddleLineShader.colorAttribute);
-		glVertexAttribPointer(allGlobals.myMiddleLineShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myMiddleLineShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(Vector3));
 	}
 
 	glDrawArrays(GL_LINES, 0, 2);
@@ -563,14 +546,11 @@ void Draw ( ESContext *esContext )
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.myCrocodile.getVBO());
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, allGlobals.myCrocodile.getIBO());
 	
-	memory_used = 0;
-
 	// Send position
 	if (allGlobals.myCrocodileShader.positionAttribute != -1)
 	{
 		glEnableVertexAttribArray(allGlobals.myCrocodileShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myCrocodileShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)memory_used);
-		memory_used += sizeof(Vector3);
+		glVertexAttribPointer(allGlobals.myCrocodileShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
 	}
 
 	// Camera perspective

@@ -167,6 +167,8 @@
     <ClCompile Include="Crocodile.cpp" />
     <ClCompile Include="ImportedObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug-ATI|Win32'">Create</PrecompiledHeader>
@@ -183,6 +185,8 @@
     <ClInclude Include="Crocodile.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ImportedObject.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

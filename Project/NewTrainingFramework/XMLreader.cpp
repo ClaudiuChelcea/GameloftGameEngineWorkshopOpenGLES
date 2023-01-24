@@ -7,9 +7,11 @@
 #include <string.h>
 #include <stdio.h>
 #include "XMLreader.h"
+#include "Globals.h"
 
 using namespace std;
 using namespace rapidxml;
+extern Globals allGlobals;
 
 // Constructor
 XMLreader::XMLreader(std::string file_name)
@@ -52,6 +54,7 @@ void XMLreader::printMe()
 		}
 	}
 
+	#if PRINT_XML
 	// Iterate over the objects
 	for (xml_node<>* object = root_node->first_node("obiect"); object; object = object->next_sibling())
 	{
@@ -73,6 +76,7 @@ void XMLreader::printMe()
 
 		cout << endl;
 	}
+	#endif
 }
 
 // Modify the document
