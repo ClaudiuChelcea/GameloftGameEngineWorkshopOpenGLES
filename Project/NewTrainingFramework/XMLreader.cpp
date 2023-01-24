@@ -16,6 +16,19 @@ extern Globals allGlobals;
 // Constructor
 XMLreader::XMLreader(std::string file_name)
 {
+	this->file_name = file_name;
+}
+
+// Destructor
+XMLreader::~XMLreader()
+{
+	delete this->doc_text;
+}
+
+/* Methods */
+// Read the file
+void XMLreader::readMe()
+{
 	// Open file
 	std::ifstream f;
 	f.open(file_name, std::ios::in);
@@ -25,22 +38,18 @@ XMLreader::XMLreader(std::string file_name)
 	}
 
 	// Get data from file
-	std::vector<char> _buffer((istreambuf_iterator<char>(f)), istreambuf_iterator<char>());
-	_buffer.push_back('\0');
-	this->buffer = _buffer;
-}
+	vector<char> buffer((std::istreambuf_iterator<char>(f)),
+		std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
 
-// Destructor
-XMLreader::~XMLreader()
-{
-	delete this->doc_text;
+	this->input = buffer;
 }
 
 // Print the XML
 void XMLreader::printMe()
 {
 	// Parse the buffer
-	doc.parse<0>(&buffer[0]);
+	doc.parse<0>(&input[0]);
 
 	// Find our root node
 	root_node = doc.first_node("obiecte");
@@ -54,7 +63,7 @@ void XMLreader::printMe()
 		}
 	}
 
-	#if PRINT_XML
+	#if PRINT_XML_TEST
 	// Iterate over the objects
 	for (xml_node<>* object = root_node->first_node("obiect"); object; object = object->next_sibling())
 	{
@@ -82,9 +91,18 @@ void XMLreader::printMe()
 // Modify the document
 void XMLreader::modifyTree()
 {
-	/*xml_document<> doc;
-	xml_node<>* node = doc.allocate_node(node_element, "a", "Google");
-	doc.append_node(node);
-	xml_attribute<>* attr = doc.allocate_attribute("href", "google.com");
-	node->append_attribute(attr);*/
+	/*
+		xml_document<> doc;
+		xml_node<>* node = doc.allocate_node(node_element, "a", "Google");
+		doc.append_node(node);
+		xml_attribute<>* attr = doc.allocate_attribute("href", "google.com");
+		node->append_attribute(attr);
+	*/
+}
+
+/* Setters and getters */
+// Set the name of the file
+void XMLreader::setFileName(std::string _file_name)
+{
+	this->file_name = _file_name;
 }

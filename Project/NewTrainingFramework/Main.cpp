@@ -8,11 +8,19 @@
 #include <conio.h>
 #include "Globals.h"
 #include <iostream>
+#include "ResourceManager.h"
+#include "SceneManager.h"
 
 Globals allGlobals;
 
 int Init ( ESContext *esContext )
 {
+	// Load resource manager
+	ResourceManager::getInstance()->doNothing();
+
+	// Load scene manager
+	SceneManager::getInstance()->doNothing();
+
 	glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
 
 	/* DEBUG */ 
@@ -263,7 +271,7 @@ int Init ( ESContext *esContext )
 		#endif
 	#endif
 
-#if ENABLE_XML
+#if ENABLE_XML_TEST_PRINT
 		allGlobals.myXMLreader.printMe();
 #endif
 

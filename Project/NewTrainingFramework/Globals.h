@@ -4,6 +4,8 @@
 #include "Shaders.h"
 #include "Crocodile.h"
 #include "XMLreader.h"
+#include "ResourceManager.h"
+#include "SceneManager.h"
 
 static class Globals
 {
@@ -90,10 +92,9 @@ static class Globals
 		GLfloat enforcedRotation = 0;
 		GLfloat enforcedRotationStep = 90;
 
-		// XML
-		#define ENABLE_XML false
-		#define PRINT_XML false
-		XMLreader myXMLreader{ "../../Resources/Test/XML_test.xml" };
+		// XML TEST
+		#define ENABLE_XML_TEST_PRINT false
+		#define PRINT_XML_TEST false
 
 		// FLAGS
 		#define QUIT_IF_NOTHING_TO_DRAW false
