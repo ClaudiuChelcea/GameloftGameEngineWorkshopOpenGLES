@@ -264,14 +264,17 @@ int Init ( ESContext *esContext )
 	glEnable(GL_DEPTH_TEST);
 	*/
 #endif
-	
+
+/* ------------------------------------ CROCODILE ------------------------------------ */
+
+#if DRAW_OBJECT_1
 	// Insert crocodile in objects
 	ResourceManager::getInstance()->getExistingObjects().insert(std::make_pair<int, ObjectComplete*>(1, new ObjectComplete(1, 4, 2)));
 	
 	// Init it
 	ResourceManager::getInstance()->initExistingObjectByModelId(1, 4, 2);
 
-/* ------------------------------------ CROCODILE ------------------------------------ */
+#endif
 
 	// Check if anything is being drawn at all
 	#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false && DRAW_CROCODILE == false
@@ -561,7 +564,6 @@ void Draw ( ESContext *esContext )
 /* ------------------------------------ CROCODILE ------------------------------------ */
 #if DRAW_CROCODILE
 
-	/*
 	glUseProgram(allGlobals.myCrocodileShader.program);
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.myCrocodile.getVBO());
@@ -628,9 +630,10 @@ void Draw ( ESContext *esContext )
 	}
 
 	glDrawElements(GL_TRIANGLES, allGlobals.myCrocodile.getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
-*/
 
 #endif
+
+#if DRAW_OBJECT_1
 	glUseProgram(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->getProgram());
 
 	glBindBuffer(GL_ARRAY_BUFFER, ResourceManager::getInstance()->getExistingObjects()[1]->getModelClass()->getVBO());
@@ -697,6 +700,8 @@ void Draw ( ESContext *esContext )
 	}
 
 	glDrawElements(GL_TRIANGLES, ResourceManager::getInstance()->getExistingObjects()[1]->getModelClass()->getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
+
+#endif
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 

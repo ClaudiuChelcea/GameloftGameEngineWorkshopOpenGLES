@@ -68,7 +68,7 @@ static class Globals
 		Shaders myMiddleLineShader;
 
 		// Crocodile
-		#define DRAW_CROCODILE true
+		#define DRAW_CROCODILE false
 		Shaders myCrocodileShader;
 		Crocodile myCrocodile;
 		float rotationAngleCrocodile = 0.0f;
@@ -98,4 +98,7 @@ static class Globals
 
 		// FLAGS
 		#define QUIT_IF_NOTHING_TO_DRAW false
+
+		// DRAW OBJECTS
+		#define DRAW_OBJECT_1 true
 };
