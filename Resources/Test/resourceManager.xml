@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resourceManager>
 	<models>
-		<folder path="Res/Models/">
+		<folder path="../../Resources/Models/">
 			<model id="1">
 				<file>croco.nfg</file>
 			</model>
@@ -20,7 +20,7 @@
 		<!-- si aici se adauga toate modelele necesare -->
 	</models>
 	<shaders>
-		<folder path="Res/Shaders/">
+		<folder path="../Resources/Shaders/">
 			<shader id="10">
 				<vs>modelShader.vs</vs>
 				<fs>modelShader.fs</fs>
@@ -29,12 +29,16 @@
 				<vs>terrainShader.vs</vs>
 				<fs>terrainShader.fs</fs>
 			</shader>
+			<shader id="2">
+				<vs>CrocodileShaderVS.glsl</vs>
+				<fs>CrocodileShaderFS.glsl</fs>
+			</shader>
 		<!-- si aici se adauga toate shaderele -->
 		</folder>
 		
 	</shaders>
 	<textures>
-		<folder path="Res/Textures/">
+		<folder path="../../Resources/Textures/">
 			<texture id="4" type="2d">
 				<file>croco.tga</file>			
 				<min_filter>LINEAR</min_filter>

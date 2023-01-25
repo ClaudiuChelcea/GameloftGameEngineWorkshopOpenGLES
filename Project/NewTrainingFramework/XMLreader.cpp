@@ -48,7 +48,7 @@ void XMLreader::readMe()
 // Print the XML
 void XMLreader::printMe()
 {
-	// Parse the buffer
+	// Parse the input file
 	doc.parse<0>(&input[0]);
 
 	// Find our root node

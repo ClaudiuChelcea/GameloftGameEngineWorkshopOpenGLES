@@ -1,4 +1,26 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug-Nvidia\) contains files shared from another project (Framework.vcxproj, NewTrainingFramework.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  ResourceManager.cpp
+  Main.cpp
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(138): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(142): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(146): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(147): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(148): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(149): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(150): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\globals.h(101): warning C4091: 'static ': ignored on left of 'Globals' when no variable is declared
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(679): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(725): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(730): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(735): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(740): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(746): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(751): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(757): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(762): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(767): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(772): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(777): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(782): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+Camera.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
   NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Main.exe
   NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Main.pdb (Full PDB)

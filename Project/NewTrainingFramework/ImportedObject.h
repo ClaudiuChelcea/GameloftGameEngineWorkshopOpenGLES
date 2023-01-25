@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class ImportedObject
 {
 	private:
@@ -15,7 +17,10 @@ class ImportedObject
 		// Create object from NFG file
 		bool InitNFG(FILE* file);
 
-		// Getters
+		// Create object from NFG file
+		bool InitNFG(std::string file_name);
+
+		/* Getters */
 		unsigned int getVBO();
 		unsigned int getIBO();
 		unsigned int getNumberOfIndices();
