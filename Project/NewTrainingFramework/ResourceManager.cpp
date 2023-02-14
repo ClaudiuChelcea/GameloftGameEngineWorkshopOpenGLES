@@ -281,11 +281,6 @@ void ResourceManager::initExistingObjectByModelId(int model_id, int texture_id, 
     this->existingObjects[model_id]->setModelClass(loadModel(model_id));
     this->existingObjects[model_id]->setTextureClass(loadTexture(texture_id));
     this->existingObjects[model_id]->setShaderClass(loadShader(shader_id));
-
-	// Print the indexes received
-  //  std::cout << this->existingObjects[model_id]->getModelClass()->getId() << " " <<
-	///	*((int*)this->existingObjects[model_id]->getTextureClass()->getId()) << " " <<
-	//	this->existingObjects[model_id]->getShaderClass()->getId() << "\n";
 }
 
 /* Getters */

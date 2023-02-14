@@ -2,7 +2,6 @@
 #include <string>
 #include "Camera.h"
 #include "Shaders.h"
-#include "Crocodile.h"
 #include "XMLreader.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
@@ -36,9 +35,10 @@ static class Globals
 		} DEBUGGER;
 
 		// Triangle
-		#define DRAW_TRIANGLE false
+		#define DRAW_TRIANGLE true
 		GLuint vboIdTriangle;
 		Shaders myTriangleShader;
+		GLuint vboIdTriangle2;
 		float rotationAngle = 0.0f;
 		float rotationAngleIncreaseSpeed = 0.01f;
 
@@ -66,18 +66,6 @@ static class Globals
 		#define DRAW_MIDDLE_LINE false
 		GLuint vboIdMiddleLine;
 		Shaders myMiddleLineShader;
-
-		// Crocodile
-		#define DRAW_CROCODILE false
-		Shaders myCrocodileShader;
-		Crocodile myCrocodile;
-		float rotationAngleCrocodile = 0.0f;
-		float rotationAngleIncreaseSpeedCrocodile = 0.01f;
-		GLuint crocodileTextureID;
-		int width = 0;
-		int height = 0;
-		int bpp = 0;
-		char* TGA_ANSWER = NULL;
 
 		/* Camera */
 		Camera myCamera = Camera(position, target, up, moveSpeed, rotateSpeed, nearC, farC, fov);

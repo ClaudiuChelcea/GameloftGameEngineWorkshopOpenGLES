@@ -57,6 +57,26 @@ int Init ( ESContext *esContext )
 		std::cerr << "Error creating triangle!\n";
 	}
 
+	//// Triangle data
+
+	//// Top vertex
+	//verticesDataTriangle[0].pos.x = 0.5f;  verticesDataTriangle[0].pos.y = 0.1f;  verticesDataTriangle[0].pos.z = 0.3f;
+	//verticesDataTriangle[0].color.x = 1.0f;  verticesDataTriangle[0].color.y = 0.0f;  verticesDataTriangle[0].color.z = 0.0f;
+
+	//// Left vertex
+	//verticesDataTriangle[1].pos.x = -0.5f;  verticesDataTriangle[1].pos.y = -0.5f;  verticesDataTriangle[1].pos.z = 0.5f;
+	//verticesDataTriangle[1].color.x = 0.0f;  verticesDataTriangle[1].color.y = 1.0f;  verticesDataTriangle[1].color.z = 0.0f;
+
+	//// Right vertex
+	//verticesDataTriangle[2].pos.x = 1.0f;  verticesDataTriangle[2].pos.y = -0.5f;  verticesDataTriangle[2].pos.z = 0.1f;
+	//verticesDataTriangle[2].color.x = 0.0f;  verticesDataTriangle[2].color.y = 0.0f;  verticesDataTriangle[2].color.z = 1.0f;
+
+	//// Buffer object
+	//glGenBuffers(1, &allGlobals.vboIdTriangle2);
+	//glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle2);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(verticesDataTriangle), verticesDataTriangle, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 #endif
 /* ------------------------------------ TRIANGLE ------------------------------------ */
 
@@ -232,65 +252,90 @@ int Init ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
-/* ------------------------------------ CROCODILE ------------------------------------ */
-#if DRAW_CROCODILE
-	/*
-	allGlobals.myCrocodile.InitNFG(allGlobals.myCrocodile.openFile(allGlobals.myCrocodile.getModelPath().c_str())); // NFG and scanning
-
-	glGenTextures(1, &allGlobals.crocodileTextureID);
-
-	// Creation of shaders and program 
-	int CrocodileStatus = allGlobals.myCrocodileShader.Init("../Resources/Shaders/CrocodileShaderVS.glsl", "../Resources/Shaders/CrocodileShaderFS.glsl");
-	if (CrocodileStatus != 0) {
-		std::cerr << "Error creating Crocodile!\n";
-	}
-
-	glBindTexture(GL_TEXTURE_2D, allGlobals.crocodileTextureID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	allGlobals.TGA_ANSWER = LoadTGA("../../Resources/Textures/Croco.tga", &allGlobals.width, &allGlobals.height, &allGlobals.bpp);
-	if (allGlobals.TGA_ANSWER == NULL) {
-		std::cerr << "Couldn't load Croco tga!\n";
-		std::abort();
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLint)allGlobals.width, (GLint)allGlobals.height, 0, GL_RGBA,
-	GL_UNSIGNED_BYTE, allGlobals.TGA_ANSWER);
-
-	glActiveTexture(GL_TEXTURE0);
-
-	glEnable(GL_DEPTH_TEST);
-	*/
-#endif
-
-/* ------------------------------------ CROCODILE ------------------------------------ */
-
+/* ------------------------------------ OBJECT_1 ------------------------------------ */
 #if DRAW_OBJECT_1
 	// Insert crocodile in objects
 	ResourceManager::getInstance()->getExistingObjects().insert(std::make_pair<int, ObjectComplete*>(1, new ObjectComplete(1, 4, 2)));
-	
+
 	// Init it
 	ResourceManager::getInstance()->initExistingObjectByModelId(1, 4, 2);
-
 #endif
-
-	// Check if anything is being drawn at all
-	#if DRAW_TRIANGLE == false && DRAW_RECTANGLE3D == false && DRAW_SQUARE == false && DRAW_MIDDLE_LINE == false && DRAW_CROCODILE == false
-		#if QUIT_IF_NOTHING_TO_DRAW
-		std::cerr << "Error! Nothing is being drawn on the screen!\n";
-		return -1;
-		#endif
-	#endif
 
 #if ENABLE_XML_TEST_PRINT
 		allGlobals.myXMLreader.printMe();
 #endif
 
-	// Game engine objects
-
 	return 0;
+}
+
+// For resource manager objects - from XML
+static inline void DrawObjectByModelId(int modelId)
+{
+	glUseProgram(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->getProgram());
+
+	glBindBuffer(GL_ARRAY_BUFFER, ResourceManager::getInstance()->getExistingObjects()[modelId]->getModelClass()->getVBO());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ResourceManager::getInstance()->getExistingObjects()[modelId]->getModelClass()->getIBO());
+
+	// Send position
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->positionAttribute);
+		glVertexAttribPointer(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)0);
+	}
+
+	// Camera perspective
+	Matrix cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	Matrix cameraView = allGlobals.myCamera.getViewMatrix();
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->viewUniform != -1)
+	{
+		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
+	}
+
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->uvAttribute != -1)
+	{
+		glEnableVertexAttribArray(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->uvAttribute);
+		glVertexAttribPointer(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(5 * sizeof(Vector3)));
+	}
+
+	// Scalation matrix
+	Matrix scalationMatrix;
+	scalationMatrix.SetScale(0.01f);
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->scalationUniform != -1)
+	{
+		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->scalationUniform, 1, GL_FALSE, (GLfloat*)scalationMatrix.m);
+	}
+
+	// Rotation of object
+	Matrix rotation;
+
+#if ENFORCE_ROTATION == false
+	rotation.SetRotationZ(-3.15);
+#else 
+	rotation.SetRotationY(allGlobals.enforcedRotation);
+	rotation.SetRotationX(-0.5);
+#endif
+
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->rotationUniform != -1)
+	{
+		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->rotationUniform, 1, GL_FALSE, (GLfloat*)rotation.m);
+	}
+
+	// Texture
+	if (ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->textureUniform != -1)
+	{
+		glUniform1i(ResourceManager::getInstance()->getExistingObjects()[modelId]->getShaderClass()->textureUniform, 0);
+	}
+	else {
+		std::cerr << "Error sending texture!";
+	}
+
+	glDrawElements(GL_TRIANGLES, ResourceManager::getInstance()->getExistingObjects()[modelId]->getModelClass()->getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
 }
 
 void Draw ( ESContext *esContext )
@@ -299,14 +344,15 @@ void Draw ( ESContext *esContext )
 
 	// Variables
 	Matrix cameraPerspective;
-	Matrix m;
 	Matrix cameraView;
+	Matrix m;
+
 /* ------------------------------------ TRIANGLE ------------------------------------ */
 #if DRAW_TRIANGLE
+
 	glUseProgram(allGlobals.myTriangleShader.program);
 
 	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle);
-
 
 	// Send position
 	if(allGlobals.myTriangleShader.positionAttribute != -1)
@@ -358,8 +404,58 @@ void Draw ( ESContext *esContext )
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
+	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.vboIdTriangle2);
+
+	// Send position
+	if (allGlobals.myTriangleShader.positionAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myTriangleShader.positionAttribute);
+		glVertexAttribPointer(allGlobals.myTriangleShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)0);
+	}
+
+	// Send color
+	if (allGlobals.myTriangleShader.colorAttribute != -1)
+	{
+		glEnableVertexAttribArray(allGlobals.myTriangleShader.colorAttribute);
+		glVertexAttribPointer(allGlobals.myTriangleShader.colorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)sizeof(Vector3));
+	}
+
+	// Camera rotation (matrix uniform)
+	m.SetRotationZ(0);
+	if (allGlobals.myTriangleShader.matrixUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myTriangleShader.matrixUniform, 1, GL_FALSE, (GLfloat*)m.m);
+	}
+
+	// Camera perspective
+	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
+	if (allGlobals.myTriangleShader.perspectiveUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myTriangleShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
+	}
+
+	// Camera view
+	cameraView = allGlobals.myCamera.getViewMatrix();
+	if (allGlobals.myTriangleShader.viewUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myTriangleShader.viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
+	}
+
+	// Add rotation to the triangle
+	Matrix rotationOfTriangle;
+#if ENFORCE_ROTATION == false
+	rotationOfTriangle.SetRotationZ(allGlobals.rotationAngle += allGlobals.rotationAngleIncreaseSpeed);
+#else 
+	rotationOfTriangle.SetRotationZ(allGlobals.enforcedRotation);
 #endif
-/* ------------------------------------ TRIANGLE ------------------------------------ */
+
+	if (allGlobals.myTriangleShader.rotationUniform != -1)
+	{
+		glUniformMatrix4fv(allGlobals.myTriangleShader.rotationUniform, 1, GL_FALSE, (GLfloat*)rotationOfTriangle.m);
+	}
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+#endif
 
 /* ------------------------------------ RECTANGLE ------------------------------------ */
 #if DRAW_RECTANGLE3D
@@ -474,7 +570,6 @@ void Draw ( ESContext *esContext )
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr);
 #endif
 #endif
-
 /* ------------------------------------ RECTANGLE ------------------------------------ */
 
 /* ------------------------------------ SQUARE ------------------------------------ */
@@ -561,150 +656,13 @@ void Draw ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
-/* ------------------------------------ CROCODILE ------------------------------------ */
-#if DRAW_CROCODILE
-
-	glUseProgram(allGlobals.myCrocodileShader.program);
-
-	glBindBuffer(GL_ARRAY_BUFFER, allGlobals.myCrocodile.getVBO());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, allGlobals.myCrocodile.getIBO());
-	
-	// Send position
-	if (allGlobals.myCrocodileShader.positionAttribute != -1)
-	{
-		glEnableVertexAttribArray(allGlobals.myCrocodileShader.positionAttribute);
-		glVertexAttribPointer(allGlobals.myCrocodileShader.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) 0);
-	}
-
-	// Camera perspective
-	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
-	if (allGlobals.myCrocodileShader.perspectiveUniform != -1)
-	{
-		glUniformMatrix4fv(allGlobals.myCrocodileShader.perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
-	}
-
-	// Camera view
-	cameraView = allGlobals.myCamera.getViewMatrix();
-	if (allGlobals.myCrocodileShader.viewUniform != -1)
-	{
-		glUniformMatrix4fv(allGlobals.myCrocodileShader.viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
-	}
-
-	if (allGlobals.myCrocodileShader.uvAttribute != -1)
-	{
-		glEnableVertexAttribArray(allGlobals.myCrocodileShader.uvAttribute);
-		glVertexAttribPointer(allGlobals.myCrocodileShader.uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) (5 * sizeof(Vector3)));
-	}
-
-	// Scalation matrix
-	Matrix scalationMatrix;
-	scalationMatrix.SetScale(0.01f);
-	if (allGlobals.myCrocodileShader.scalationUniform != -1)
-	{
-		glUniformMatrix4fv(allGlobals.myCrocodileShader.scalationUniform, 1, GL_FALSE, (GLfloat*) scalationMatrix.m);
-	}
-
-	// Rotation of object
-	Matrix rotationOfCrocodile;
-
-#if ENFORCE_ROTATION == false
-	//rotationOfCrocodile.SetRotationX(allGlobals.rotationAngleSquare -= allGlobals.rotationAngleIncreaseSpeedSquare);
-	rotationOfCrocodile.SetRotationZ(-3.15);
-#else 
-	rotationOfCrocodile.SetRotationY(allGlobals.enforcedRotation);
-	rotationOfCrocodile.SetRotationX(-0.5);
-#endif
-
-	if (allGlobals.myCrocodileShader.rotationUniform != -1)
-	{
-		glUniformMatrix4fv(allGlobals.myCrocodileShader.rotationUniform, 1, GL_FALSE, (GLfloat*) rotationOfCrocodile.m);
-	}
-
-	// Texture
-	if (allGlobals.myCrocodileShader.textureUniform != -1)
-	{
-		glUniform1i(allGlobals.myCrocodileShader.textureUniform, 0);
-	}
-	else {
-		std::cerr << "Error sending texture!";
-	}
-
-	glDrawElements(GL_TRIANGLES, allGlobals.myCrocodile.getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
-
-#endif
-
+// For resource manager objects - XML
 #if DRAW_OBJECT_1
-	glUseProgram(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->getProgram());
-
-	glBindBuffer(GL_ARRAY_BUFFER, ResourceManager::getInstance()->getExistingObjects()[1]->getModelClass()->getVBO());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ResourceManager::getInstance()->getExistingObjects()[1]->getModelClass()->getIBO());
-
-	// Send position
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->positionAttribute != -1)
-	{
-		glEnableVertexAttribArray(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->positionAttribute);
-		glVertexAttribPointer(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)0);
-	}
-
-	// Camera perspective
-	cameraPerspective = allGlobals.myCamera.getPerspectiveMatrix();
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->perspectiveUniform != -1)
-	{
-		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->perspectiveUniform, 1, GL_FALSE, (GLfloat*)cameraPerspective.m);
-	}
-
-	// Camera view
-	cameraView = allGlobals.myCamera.getViewMatrix();
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->viewUniform != -1)
-	{
-		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->viewUniform, 1, GL_FALSE, (GLfloat*)cameraView.m);
-	}
-
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->uvAttribute != -1)
-	{
-		glEnableVertexAttribArray(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->uvAttribute);
-		glVertexAttribPointer(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->uvAttribute, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(5 * sizeof(Vector3)));
-	}
-
-	// Scalation matrix
-	Matrix scalationMatrix;
-	scalationMatrix.SetScale(0.01f);
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->scalationUniform != -1)
-	{
-		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->scalationUniform, 1, GL_FALSE, (GLfloat*)scalationMatrix.m);
-	}
-
-	// Rotation of object
-	Matrix rotationOfCrocodile;
-
-#if ENFORCE_ROTATION == false
-	//rotationOfCrocodile.SetRotationX(allGlobals.rotationAngleSquare -= allGlobals.rotationAngleIncreaseSpeedSquare);
-	rotationOfCrocodile.SetRotationZ(-3.15);
-#else 
-	rotationOfCrocodile.SetRotationY(allGlobals.enforcedRotation);
-	rotationOfCrocodile.SetRotationX(-0.5);
+	DrawObjectByModelId(1);
 #endif
 
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->rotationUniform != -1)
-	{
-		glUniformMatrix4fv(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->rotationUniform, 1, GL_FALSE, (GLfloat*)rotationOfCrocodile.m);
-	}
-
-	// Texture
-	if (ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->textureUniform != -1)
-	{
-		glUniform1i(ResourceManager::getInstance()->getExistingObjects()[1]->getShaderClass()->textureUniform, 0);
-	}
-	else {
-		std::cerr << "Error sending texture!";
-	}
-
-	glDrawElements(GL_TRIANGLES, ResourceManager::getInstance()->getExistingObjects()[1]->getModelClass()->getNumberOfIndices(), GL_UNSIGNED_SHORT, nullptr);
-
-#endif
-
+	// Clear everything
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
