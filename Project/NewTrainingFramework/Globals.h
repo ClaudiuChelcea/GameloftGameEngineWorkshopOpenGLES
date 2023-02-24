@@ -86,7 +86,4 @@ static class Globals
 
 		// FLAGS
 		#define QUIT_IF_NOTHING_TO_DRAW false
-
-		// DRAW OBJECTS
-		#define DRAW_OBJECT_1 true
 };

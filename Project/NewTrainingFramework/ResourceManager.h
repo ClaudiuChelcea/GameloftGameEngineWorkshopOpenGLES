@@ -7,7 +7,7 @@
 #include "Shader.h"
 #include "ImportedObject.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
-#include "ObjectComplete.h"
+#include "SceneObject.h"
 #include <vector>
 #include <unordered_map>
 
@@ -55,7 +55,7 @@ private:
 	std::unordered_map<int, Texture*> loadedTexturesVector;
 
 	// Array of existing objects
-	std::unordered_map<int, ObjectComplete*> existingObjects;
+	std::unordered_map<int, SceneObject*> existingObjects;
 public:
 
 	// Get instance
@@ -97,7 +97,7 @@ public:
 	void initExistingObjectByModelId(int model_id, int texture_id, int shader_id);
 
 	/* Getters */
-	std::unordered_map<int, ObjectComplete*>& getExistingObjects();
+	std::unordered_map<int, SceneObject*>& getExistingObjects();
 };
 
 

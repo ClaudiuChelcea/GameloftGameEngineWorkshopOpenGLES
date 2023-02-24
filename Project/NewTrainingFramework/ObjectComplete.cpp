@@ -16,6 +16,16 @@ ObjectComplete::ObjectComplete(int _model_id, int _texture_id, int _shader_id)
 	this->shader_id = _shader_id;
 }
 
+ObjectComplete::ObjectComplete() {}
+
+ObjectComplete::ObjectComplete(int _model_id, std::vector<int> _texture_id, int _shader_id)
+{
+	std::cerr << "Watch out! Multiple textures not implemented yet!" << std::endl;
+	this->model_id = _model_id;
+	this->texture_id = _texture_id.at(0);
+	this->shader_id = _shader_id;
+}
+
 /* Getters */
 Model* ObjectComplete::getModelClass()
 {
@@ -30,6 +40,21 @@ Texture* ObjectComplete::getTextureClass()
 Shader* ObjectComplete::getShaderClass()
 {
 	return this->shader;
+}
+
+int ObjectComplete::getModelId()
+{
+	return this->model_id;
+}
+
+int ObjectComplete::getShaderId()
+{
+	return this->shader_id;
+}
+
+int ObjectComplete::getTextureId()
+{
+	return this->texture_id;
 }
 
 /* Setters */
@@ -67,4 +92,19 @@ void ObjectComplete::setShaderClass(Shader* _shader)
 		std::cerr << e.what();
 		std::abort();
 	}
+}
+
+void ObjectComplete::setModelId(int _model_id)
+{
+	this->model_id = _model_id;
+}
+
+void ObjectComplete::setShaderId(int _shader_id)
+{
+	this->shader_id = _shader_id;
+}
+
+void ObjectComplete::setTextureId(int _texture_id)
+{
+	this->texture_id = _texture_id;
 }

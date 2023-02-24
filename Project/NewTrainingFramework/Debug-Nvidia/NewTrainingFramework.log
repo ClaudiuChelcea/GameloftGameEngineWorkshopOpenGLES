@@ -7,19 +7,19 @@ c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(147):
 c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(148): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
 c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(149): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
 c:\users\claudiumarian.chelce\desktop\game engine\project\utilities\math.h(150): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\globals.h(92): warning C4091: 'static ': ignored on left of 'Globals' when no variable is declared
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(320): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(640): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(645): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(650): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(655): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(661): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(666): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(672): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(677): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(682): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(687): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(692): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
-c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(697): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\globals.h(89): warning C4091: 'static ': ignored on left of 'Globals' when no variable is declared
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(333): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(707): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(712): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(717): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(722): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(728): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(733): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(739): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(744): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(749): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(754): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(759): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+c:\users\claudiumarian.chelce\desktop\game engine\project\newtrainingframework\main.cpp(764): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
   NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Main.exe
   NewTrainingFramework.vcxproj -> C:\Users\claudiumarian.chelce\Desktop\Game Engine\Project\\BIN-Nvidia\Main.pdb (Full PDB)

@@ -264,7 +264,7 @@ Shader* ResourceManager::loadShader(int shader_id)
 	strcpy(fs, fs_s.c_str());
 
 	if (shaderToLoad->Init(vs, fs) != 0) {
-		std::cout << vs << "|" << fs << "|\n";
+		std::cout << vs << " | " << fs << "\n";
 		std::cerr << "Couldn't init shader for shader " << shaderToLoad->getData()->shader_id << std::endl;
 		std::abort();
 	}
@@ -284,7 +284,7 @@ void ResourceManager::initExistingObjectByModelId(int model_id, int texture_id, 
 }
 
 /* Getters */
-std::unordered_map<int, ObjectComplete*>& ResourceManager::getExistingObjects()
+std::unordered_map<int, SceneObject*>& ResourceManager::getExistingObjects()
 {
 	return this->existingObjects;
 }

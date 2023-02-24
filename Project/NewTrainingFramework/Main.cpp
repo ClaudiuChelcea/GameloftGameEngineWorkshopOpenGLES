@@ -252,14 +252,29 @@ int Init ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
-/* ------------------------------------ OBJECT_1 ------------------------------------ */
-#if DRAW_OBJECT_1
-	// Insert crocodile in objects
-	ResourceManager::getInstance()->getExistingObjects().insert(std::make_pair<int, ObjectComplete*>(1, new ObjectComplete(1, 4, 2)));
+/* ------------------------------------ OBJECTS ------------------------------------ */
+	for (auto& Object: SceneManager::getInstance()->getObjects())
+	{
+		// Insert object in live objects vector
+		std::pair<int, SceneObject*> drawnObjectPair;
+		Object->setModelId(Object->getSceneObjectModelId());
+		Object->setTextureId(Object->getSceneObjectTextureId().at(0));
+		Object->setShaderId(Object->getSceneObjectShaderId());
+		drawnObjectPair.first = Object->getModelId();
+		drawnObjectPair.second = Object;
 
-	// Init it
-	ResourceManager::getInstance()->initExistingObjectByModelId(1, 4, 2);
-#endif
+		// This array holds ALL DRAWN objects, not just loaded
+		ResourceManager::getInstance()->getExistingObjects().insert(drawnObjectPair);
+			
+		// Init it (load it on the screen - draw it)
+		ResourceManager::getInstance()->initExistingObjectByModelId(
+			Object->getModelId(),
+			Object->getTextureId(),
+			Object->getShaderId());
+
+		break;
+	}
+/* ------------------------------------ OBJECTS ------------------------------------ */
 
 #if ENABLE_XML_TEST_PRINT
 		allGlobals.myXMLreader.printMe();
@@ -442,7 +457,7 @@ void Draw ( ESContext *esContext )
 	}
 
 	// Add rotation to the triangle
-	Matrix rotationOfTriangle;
+	rotationOfTriangle;
 #if ENFORCE_ROTATION == false
 	rotationOfTriangle.SetRotationZ(allGlobals.rotationAngle += allGlobals.rotationAngleIncreaseSpeed);
 #else 
@@ -456,6 +471,7 @@ void Draw ( ESContext *esContext )
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 #endif
+/* ------------------------------------ TRIANGLE ------------------------------------ */
 
 /* ------------------------------------ RECTANGLE ------------------------------------ */
 #if DRAW_RECTANGLE3D
@@ -656,10 +672,13 @@ void Draw ( ESContext *esContext )
 #endif
 /* ------------------------------------ MIDDLE LINE ------------------------------------ */
 
-// For resource manager objects - XML
-#if DRAW_OBJECT_1
-	DrawObjectByModelId(1);
-#endif
+/* ------------------------------------ OBJECTS ------------------------------------ */
+	for (auto& Object : SceneManager::getInstance()->getObjects())
+	{
+		DrawObjectByModelId(Object->getModelId());
+		break;
+	}
+/* ------------------------------------ OBJECTS ------------------------------------ */
 
 	// Clear everything
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
